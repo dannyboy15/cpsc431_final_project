@@ -1,13 +1,7 @@
 <!DOCTYPE html>
 <?php
 
-$port = "3306";
-$hostname = "localhost";
-
-$dbhost = $hostname.":".$port;
-$dbuser = "phpWebEngine";
-$dbpass = "withheld";
-$dbname = "YSoccerDB";
+require_once 'mysql_conn.php';
 
 $dbconn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 if ($dbconn->connect_errno) {
@@ -32,6 +26,7 @@ if ($result = $dbconn->query($query)) {
 require 'header.php';
 
 echo "<h1>Welcome Message</h1>";
+require 'display_registration.php';
 
 require 'footer.php';
 ?>

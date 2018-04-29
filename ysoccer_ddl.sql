@@ -47,7 +47,7 @@ INSERT INTO Adult VALUES
 CREATE TABLE UserAcct
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
   Email		    VARCHAR(150)	  NOT NULL,
-  Password      VARCHAR(15)       NOT NULL,
+  Password      VARCHAR(50)       NOT NULL,
   Role          ENUM ('observer', 'user', 'manager', 'admin'),
   AdultID       INTEGER UNSIGNED,
 
@@ -58,7 +58,7 @@ CREATE TABLE UserAcct
 );
 
 INSERT INTO UserAcct VALUES
-('1', 'janesmith45@gmail.com', 'password123', 'Coach','101');
+('1', 'janesmith45@gmail.com', 'password123', 'observer','101');
 
 
 
@@ -87,12 +87,12 @@ CREATE TABLE Matches
   Score         INTEGER UNSIGNED,
   TeamRank      INTEGER UNSIGNED,
   PlayerID    INTEGER UNSIGNED,
-  CoachID     INTEGER UNSIGNED,
+  CoachID     INTEGER UNSIGNED
 
   -- Zip code rules:
   --   5 digits, not all are zero and not all are nine,
   --   optionally followed by a hyphen and 4 digits, not all are zero and not all are nine.
-  CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
+  -- CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
 );
 
 CREATE TABLE Practice
@@ -112,7 +112,7 @@ CREATE TABLE Practice
   -- Zip code rules:
   --   5 digits, not all are zero and not all are nine,
   --   optionally followed by a hyphen and 4 digits, not all are zero and not all are nine.
-  CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
+  -- CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
 );
 
   CREATE TABLE SnackSignup
