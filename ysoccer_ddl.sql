@@ -1,21 +1,22 @@
 -- All basic info  is in
--- Needs to be added: RegExp for email and passwords
---					enum type for roles
+-- Needs to be added: RegExp for email and password
 --					more insert statements
 -- Needs discussing: whether or not adult and userAcct should be linked by foreign key or separate table
 
-# Create the Database
+-- Create the Database
 drop   database if exists     YSoccerDB;
 create database if not exists YSoccerDB;
 
 
-# Create the users
-drop user if exists 'phpWebEngine';
+-- Create the users
 DROP USER IF EXISTS 'observer';
 DROP USER IF EXISTS 'user';
 DROP USER IF EXISTS 'manager';
 DROP USER IF EXISTS 'admin';
-grant select, insert, delete, update, execute on YSoccerDB.* to 'phpWebEngine' identified by 'withheld';
+grant select, insert, delete, update, execute on YSoccerDB.* to 'admin' identified by 'withheld';
+grant select, insert, delete, update, execute on YSoccerDB.* to 'manager' identified by 'withheld';
+grant select, insert, delete, update, execute on YSoccerDB.* to 'user' identified by 'withheld';
+grant select, execute on YSoccerDB.* to 'observer' identified by 'withheld';
 
 
 
@@ -47,8 +48,7 @@ CREATE TABLE UserAcct
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
   Email		    VARCHAR(150)	  NOT NULL,
   Password      VARCHAR(15)       NOT NULL,
-  -- role should be enum?
-  Role          VARCHAR(250),
+  Role          ENUM ('observer', 'user', 'manager', 'admin'),
   AdultID       INTEGER UNSIGNED,
 
   FOREIGN KEY (AdultID) REFERENCES Adult(ID) ON DELETE CASCADE
