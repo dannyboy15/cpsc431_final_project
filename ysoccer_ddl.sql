@@ -1,13 +1,20 @@
---All basic info is in
---Needs to be added: RegExp for email and passwords
+-- All basic info  is in
+-- Needs to be added: RegExp for email and passwords
 --					enum type for roles
 --					more insert statements
---Needs discussing: whether or not adult and userAcct should be linked by foreign key or separate table
+-- Needs discussing: whether or not adult and userAcct should be linked by foreign key or separate table
+
+# Create the Database
 drop   database if exists     YSoccerDB;
 create database if not exists YSoccerDB;
 
 
+# Create the users
 drop user if exists 'phpWebEngine';
+DROP USER IF EXISTS 'observer';
+DROP USER IF EXISTS 'user';
+DROP USER IF EXISTS 'manager';
+DROP USER IF EXISTS 'admin';
 grant select, insert, delete, update, execute on YSoccerDB.* to 'phpWebEngine' identified by 'withheld';
 
 
