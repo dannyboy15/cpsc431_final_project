@@ -19,17 +19,39 @@ grant select, insert, delete, update, execute on YSoccerDB.* to 'phpWebEngine' i
 
 
 
-use CSPS_431_HW3;
+use YSoccerDB;
+
+CREATE TABLE Adult
+( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
+  Name_First    VARCHAR(100),
+  Name_Last     VARCHAR(150)      NOT NULL,
+  Email			    VARCHAR(150)      NOT NULL,
+  Phone			    CHAR (10),
+  Street        VARCHAR(250),
+  City          VARCHAR(100),
+  State         VARCHAR(100),
+  ZipCode       CHAR(10)
+
+  -- Need regexp for email and phone
+  -- Zip code rules:
+  --   5 digits, not all are zero and not all are nine,
+  --   optionally followed by a hyphen and 4 digits, not all are zero and not all are nine.
+  -- CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
+
+);
+
+INSERT INTO Adult VALUES
+('101', 'Jane', 'Smith', 'janesmith45@gmail','7145556262', '2569 Apple St.', 'Fullerton', 'CA', '92831');
 
 CREATE TABLE UserAcct
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
   Email		    VARCHAR(150)	  NOT NULL,
   Password      VARCHAR(15)       NOT NULL,
-  --role should be enum?
+  -- role should be enum?
   Role          VARCHAR(250),
   AdultID       INTEGER UNSIGNED,
-  
-  FOREIGN KEY (AdultId) REFERENCES Adult(ID) ON DELETE CASCADE
+
+  FOREIGN KEY (AdultID) REFERENCES Adult(ID) ON DELETE CASCADE
 
   -- Need reg exp for email & password
 --  CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?'),
@@ -39,35 +61,16 @@ INSERT INTO UserAcct VALUES
 ('1', 'janesmith45@gmail.com', 'password123', 'Coach','101');
 
 
-CREATE TABLE Adult
-( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
-  Name_First    VARCHAR(100),
-  Name_Last     VARCHAR(150)      NOT NULL,
-  Email			VARCHAR(150)      NOT NULL,
-  Phone			CHAR (7),		--7 or 10?
-  Street        VARCHAR(250),
-  City          VARCHAR(100),
-  State         VARCHAR(100),
-  ZipCode       CHAR(10),
 
-  --Need regexp for email and phone
-  -- Zip code rules:
-  --   5 digits, not all are zero and not all are nine, 
-  --   optionally followed by a hyphen and 4 digits, not all are zero and not all are nine.
-  CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?'),
-  
-);
-INSERT INTO UserAcct VALUES
-('101', 'Jane', 'Smith', 'janesmith45@gmail','7145556262', '2569 Apple St.', 'Fullerton', 'CA', '92831');
 
 CREATE TABLE Child
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
   AdultId		INTEGER UNSIGNED  NOT NULL,
   Name_First    VARCHAR(100),
   Name_Last     VARCHAR(150)      NOT NULL,
-  Position[]		VARCHAR(150),
+  Position		VARCHAR(150),
   Goals			INTEGER,
-  
+
   FOREIGN KEY (AdultId) REFERENCES Adult(ID) ON DELETE CASCADE
 );
 
@@ -83,18 +86,18 @@ CREATE TABLE Matches
   ZipCode       CHAR(10),
   Score         INTEGER UNSIGNED,
   TeamRank      INTEGER UNSIGNED,
-  PlayerID[]    INTEGER UNSIGNED,
-  CoachID[]     INTEGER UNSIGNED,
+  PlayerID    INTEGER UNSIGNED,
+  CoachID     INTEGER UNSIGNED,
 
   -- Zip code rules:
-  --   5 digits, not all are zero and not all are nine, 
+  --   5 digits, not all are zero and not all are nine,
   --   optionally followed by a hyphen and 4 digits, not all are zero and not all are nine.
   CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
 );
 
 CREATE TABLE Practice
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
-  CoachID[]     INTEGER UNSIGNED  NOT NULL,
+  CoachID     INTEGER UNSIGNED  NOT NULL,
   Location      VARCHAR(250)      NOT NULL,
   Street        VARCHAR(250),
   City          VARCHAR(100),
@@ -103,13 +106,14 @@ CREATE TABLE Practice
   ZipCode       CHAR(10),
   StartTime     TIME,
   PDate         DATE,
-  
+
   FOREIGN KEY (CoachID) REFERENCES Adult(ID) ON DELETE CASCADE
 
   -- Zip code rules:
-  --   5 digits, not all are zero and not all are nine, 
+  --   5 digits, not all are zero and not all are nine,
   --   optionally followed by a hyphen and 4 digits, not all are zero and not all are nine.
   CHECK (ZipCode REGEXP '(?!0{5})(?!9{5})\\d{5}(-(?!0{4})(?!9{4})\\d{4})?')
+);
 
   CREATE TABLE SnackSignup
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
@@ -121,9 +125,8 @@ CREATE TABLE Practice
 
   CREATE TABLE Carpool
 ( ID            INTEGER UNSIGNED  NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
-  AdultID[]     INTEGER UNSIGNED  NOT NULL,
+  AdultID     INTEGER UNSIGNED  NOT NULL,
   Description   VARCHAR(500)      NOT NULL,
 
   FOREIGN KEY (AdultID) REFERENCES Adult(ID) ON DELETE CASCADE
 );
-  
