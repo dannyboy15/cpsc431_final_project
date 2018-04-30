@@ -1,0 +1,18 @@
+../final_project
+├── README.md
+├── display_login.php
+├── display_registration.php
+├── footer.php
+├── header.php
+├── index.php
+├── login.php
+├── matches.php
+├── mysql
+│   ├── ysoccer_ddl.sql
+│   └── ysoccer_dml.sql
+├── mysql_conn.php
+├── register.php
+├── sanitize.php
+└── tree.txt
+
+1 directory, 14 files
