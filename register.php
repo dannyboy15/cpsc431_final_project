@@ -23,7 +23,6 @@ $stmt = $dbconn->prepare($query);
 
 
 if ($stmt) {
-    printf("%s %s", $email, $password);
     $stmt->bind_param('ss', $email, $password);
     if (!$stmt->execute()) {
         echo "SQL execution failed";
@@ -33,6 +32,8 @@ if ($stmt) {
 } else {
   echo "statement failed";
 }
+
+$dbconn->close();
 
 // require ""
 
