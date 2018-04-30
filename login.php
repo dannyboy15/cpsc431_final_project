@@ -1,5 +1,6 @@
 <?php
-require_once 'sanitize.php';
+
+require_once('sanitize.php');
 
 // Create short variable names
 $email = sanitize($_POST['email']);
