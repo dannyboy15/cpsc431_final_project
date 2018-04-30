@@ -1,32 +1,15 @@
-<!DOCTYPE html>
 <?php
 
-require_once 'mysql_conn.php';
+$title = 'Welcome - Youth Soccer';
+$active = "";
+require_once('header.php');
 
-$dbconn = mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-if ($dbconn->connect_errno) {
-  printf("Connect failed: %s<br>", $dbconn->connect_error);
-  exit();
-} else {
-    echo "connected succesfully<br>";
-    $query = "
-  SELECT
-      *
-  FROM
-      Roles";
-}
-
-if ($result = $dbconn->query($query)) {
-  while ($row = $result->fetch_array(MYSQLI_NUM)) {
-      var_dump($row);
-      echo "<br>";
-  }
-}
-
-require 'header.php';
-
-echo "<h1>Welcome Message</h1>";
-require 'display_registration.php';
-
-require 'footer.php';
 ?>
+
+
+<div class="container">
+  <h1 class="text-center">Welcome to Youth Soccer League</h1>
+  <p>Please sign up or log in to get started</p>
+</div>
+
+<?php require_once('footer.php'); ?>
