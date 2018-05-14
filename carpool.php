@@ -1,5 +1,11 @@
 <?php
 session_start();
+
+if(!isset($_SESSION['id'])) {
+  require('index.php');
+  return;
+}
+
 $title = 'Youth Soccer - Carpool';
 $active = "Carpool";
 require_once('header.php');
