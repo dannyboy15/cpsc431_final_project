@@ -13,7 +13,8 @@ if(empty($email)) {
 }
 
 require_once 'mysql_conn.php';
-$dbconn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+
+$dbconn = new_connection('phpWebEngine');
 
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
@@ -24,7 +25,7 @@ $code_query = "UPDATE UserAcct SET passreset='$code' WHERE email='$email'";
 
 if($_POST) {
 	$email = $_POST['email'];
-	
+
 	$forgot = mysqli_query($dbconn, $query);
 	$count = mysqli_num_rows($forgot);
 	$row = mysqli_fetch_array($forgot);
@@ -32,14 +33,14 @@ if($_POST) {
 	if($count > 0) {
 		$code = rand(10000,1000000);
 
-		$link="<a href='http://localhost/display_reset.php?code=$code&email=$email'>Click On This Link</a>";
+		$link="<a href='http://localhost:8888/display_reset.php?code=$code&email=$email'>Click On This Link</a>";
 
-		$mail = new PHPMailer(true); 
+		$mail = new PHPMailer(true);
 
 		try{
 			//server settings
-			#$mail->SMTPDebug = 1; // Enable verbose debug output
-		    	$mail->IsSMTP(); 
+			// $mail->SMTPDebug = 1; // Enable verbose debug output
+		  $mail->IsSMTP();
 			$mail->SMTPAuth = true;
 			$mail->Host = 'tls://smtp.gmail.com';
 			$mail->Username = 'y.hornets@gmail.com';
@@ -65,7 +66,7 @@ if($_POST) {
 				echo 'Your reset link was sent to the email provided.';
 
 
-		} 
+		}
 		catch (Exception $e) {
 			echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
 		}
@@ -74,7 +75,7 @@ if($_POST) {
 		echo 'Email not found, please enter another one or visit contact page';
 	}
 }
- 
+
 
 $dbconn->close();
 

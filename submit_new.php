@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['id'])) {
+  require('index.php');
+  return;
+}
+
 require_once 'sanitize.php';
 require_once 'mysql_conn.php';
 
@@ -7,7 +14,7 @@ $newpassword2 =$_POST['newpassword2'];
 $email = $_POST['email'];
 $code = $_GET['code'];
 
-$dbconn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+$dbconn = new_connection($_SESSION['role']);
 
 if (mysqli_connect_errno()) {
 	printf("Connect failed: %s\n", mysqli_connect_error());

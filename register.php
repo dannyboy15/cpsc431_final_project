@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['id'])) {
+  require('index.php');
+  return;
+}
+
 require_once 'sanitize.php';
 
 // Create short variable names
@@ -28,7 +35,7 @@ if ($stmt) {
     if (!$stmt->execute()) {
         echo "SQL execution failed";
     } else {
-      echo "It worked!!!!!";
+      // echo "It worked!!!!!";
     }
 } else {
   echo "statement failed";
@@ -36,7 +43,7 @@ if ($stmt) {
 
 $dbconn->close();
 
-// require ""
+require_once('index.php');
 
 
  ?>
