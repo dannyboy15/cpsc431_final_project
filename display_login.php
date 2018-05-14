@@ -19,7 +19,7 @@ require_once('header.php');
         <input type="password" class="form-control" id="password" name='password' placeholder="********">
       </div>
       <div>
-        <a href="forgot.php">Forgot Password</a> | <a href="display_registration.php">Register</a>
+        <a href="display_forgot.php">Forgot Password</a> | <a href="display_registration.php">Register</a>
       </div>
       <br>
       <button type="submit" class="btn btn-primary">Submit</button>
