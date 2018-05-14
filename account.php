@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $title = 'Youth Soccer - Account';
 $active = "Account";
 require_once('header.php');
