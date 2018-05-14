@@ -9,27 +9,34 @@ $password = sanitize($_POST['password']);
 if(empty($email) || empty($password)) {
   echo "<h1>Login failed</h1>";
 }
-// $password = sha1($password);
+$password = sha1($password);
 
 require_once 'mysql_conn.php';
-$dbconn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+$dbconn = new_connection('phpWebEngine');
 
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
 
-$query = "SELECT 1 FROM UserAcct WHERE Email = ? and Password = ?";
+$query = "SELECT ID, Role FROM UserAcct WHERE Email = ? and Password = ?";
 $stmt = $dbconn->prepare($query);
 
-
+session_start();
 if ($stmt) {
     $stmt->bind_param('ss', $email, $password);
     if (!$stmt->execute()) {
         echo "SQL execution failed";
     }
-    if($stmt->get_result()->num_rows > 0)
-    echo "You have succesfully authenticated";
+    if(($result = $stmt->get_result())->num_rows > 0) {
+      $row = $result->fetch_array(MYSQLI_ASSOC);
+
+      $_SESSION['id'] = $row['ID'];
+      $_SESSION['role'] = $row['Role'];
+
+    } else {
+      echo 'You failed to log in';
+    }
 
 } else {
   echo "statement failed";
@@ -37,7 +44,7 @@ if ($stmt) {
 
 $dbconn->close();
 
-require "matches.php"
+require('index.php');
 
 
  ?>
