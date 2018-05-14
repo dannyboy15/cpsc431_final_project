@@ -11,16 +11,17 @@ if(empty($email) || empty($password)) {
 $password = sha1($password);
 
 require_once 'mysql_conn.php';
-$dbconn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+$dbconn = new_connection('phpWebEngine');
 
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
     exit();
 }
 
-$query = "INSERT INTO UserAcct VALUES (NULL, ?, ?, NULL, NULL)";
+$query = "INSERT INTO UserAcct VALUES (NULL, ?, ?, 'observer', NULL)";
 $stmt = $dbconn->prepare($query);
 
+// TODO make sure email can only be registered onnce
 
 if ($stmt) {
     $stmt->bind_param('ss', $email, $password);
