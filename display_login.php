@@ -1,9 +1,9 @@
 <?php
+session_start();
 
 $title = 'Youth Soccer - Login';
 $active = "Login";
 require_once('header.php');
-
 ?>
 
 <div class="container">

@@ -1,12 +1,12 @@
 <?php
-
+session_start();
 $title = 'Youth Soccer - Matches';
 $active = "Home";
 require_once('header.php');
 
 
 require_once('mysql_conn.php');
-$dbconn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
+$dbconn = new_connection('phpWebEngine');
 
 if (mysqli_connect_errno()) {
     printf("Connect failed: %s\n", mysqli_connect_error());
