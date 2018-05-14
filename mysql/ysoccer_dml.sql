@@ -1,3 +1,5 @@
+USE YSoccerDB;
+
 INSERT INTO Adult VALUES
 (101, 'Jane', 'Smith', 'janesmith45@gmail','7145556262', '2569 Apple St.', 'Fullerton', 'CA', '92831'),
 (102, 'Jack', 'Jones', 'janesmith45@gmail','7145556262', '2569 Apple St.', 'Fullerton', 'CA', '92831'),
@@ -65,3 +67,20 @@ INSERT INTO Carpool VALUES
 (NULL, 109, 'Thursday'),
 (NULL, 110, 'Friday'),
 (NULL, 111, 'Saturday');
+
+INSERT INTO Roles VALUES
+(NULL, 'observer', 'Home', '/matches.php'),
+(NULL, 'observer', 'Stats', '/statistics.php'),
+(NULL, 'user', 'Home', '/matches.php'),
+(NULL, 'user', 'Stats', '/statistics.php'),
+(NULL, 'user', 'Practice', '/practice.php'),
+(NULL, 'user', 'Carpool', '/carpool.php'),
+(NULL, 'user', 'Snack', '/snacksignup.php'),
+(NULL, 'user', 'Account', '/account.php'),
+(NULL, 'manager', 'Home', '/matches.php'),
+(NULL, 'manager', 'Stats', '/statistics.php'),
+(NULL, 'manager', 'Practice', '/practice.php'),
+(NULL, 'manager', 'Carpool', '/carpool.php'),
+(NULL, 'manager', 'Snack', '/snacksignup.php'),
+(NULL, 'manager', 'Account', '/account.php'),
+(NULL, 'manager', 'Admin', '/admin.php');

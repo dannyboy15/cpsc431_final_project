@@ -114,3 +114,10 @@ CREATE TABLE Carpool
 
   FOREIGN KEY (AdultID) REFERENCES Adult(ID) ON DELETE CASCADE
 );
+
+CREATE TABLE Roles
+( ID          INTEGER UNSIGNED                              NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
+  Role        ENUM ('observer', 'user', 'manager', 'admin') NOT NULL,
+  LinkName    VARCHAR(15)                                   NOT NULL,
+  LinkURL     VARCHAR(50)                                   NOT NULL
+)
