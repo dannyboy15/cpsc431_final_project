@@ -1,7 +1,6 @@
 <?php
 
-$isActive = array('Home' => '', 'Practice' => '', 'Carpool' => '', 'Admin' => '', 'Login' => '');
-
+$isActive = array('Home' => '', 'Practice' => '', 'Carpool' => '', 'Admin' => '', 'Login' => '', 'Stats' => '', 'Snack' => '', 'Admin' => '', 'Account' => '', 'Logout' => '');
 
 function setActive(&$arr, $page)
 {
@@ -12,7 +11,6 @@ function setActive(&$arr, $page)
 }
 
 setActive($isActive, $active);
-
 ?>
 
 <!DOCTYPE html>
@@ -32,13 +30,46 @@ setActive($isActive, $active);
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class=<?= printf("\"nav-item nav-link %s\"", $isActive["Home"]); ?> href="/matches.php">Home</a>
-            <a class=<?= printf("\"nav-item nav-link %s\"", $isActive["Practice"]); ?> href="#">Practice</a>
-            <a class=<?= printf("\"nav-item nav-link %s\"", $isActive["Carpool"]); ?> href="#">Carpool</a>
-            <a class=<?= printf("\"nav-item nav-link %s\"", $isActive["Admin"]); ?> href="#">Admin</a>
-            <div class="justify-content-end">
-              <a class=<?= printf("\"nav-item nav-link %s\"", $isActive["Login"]); ?> href="/display_login.php">Login/Register</a>
-            </div>
+            <?php
+            require_once 'mysql_conn.php';
+            $dbconn = new_connection('phpWebEngine');
+
+            if (mysqli_connect_errno()) {
+                printf("Connect failed: %s\n", mysqli_connect_error());
+                exit();
+            }
+
+            $query = "SELECT LinkName, LinkURL From Roles WHERE Role = ?";
+            $stmt = $dbconn->prepare($query);
+
+            $user = isset($_SESSION['role']) ? $_SESSION['role'] : 'phpWebEngine';
+
+            if ($stmt) {
+                $stmt->bind_param('s', $user);
+                if (!$stmt->execute()) {
+                    echo "SQL execution failed";
+                } else {
+                  $stmt->bind_result($link, $url);
+                  while ($stmt->fetch()) {
+                    $fulllink = sprintf("<a class=\"nav-item nav-link %s\" href=\"%s\">%s</a>", $isActive[$link], $url, $link);
+                    echo $fulllink;
+                  }
+                  $stmt->close();
+
+                }
+            } else {
+              echo "statement failed";
+            }
+
+            $dbconn->close();
+
+            if(isset($_SESSION['id'])) {
+              printf("<a class=\"nav-item nav-link %s\" href=\"/logout.php\">Logout</a>", $isActive["Logout"]);
+            } else {
+              printf("<a class=\"nav-item nav-link %s\" href=\"/display_login.php\">Login/Register</a>", $isActive["Login"]);
+            }
+
+            ?>
           </div>
         </div>
       </nav>
