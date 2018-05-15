@@ -9,7 +9,8 @@ if(!isset($_SESSION['id'])) {
 $title = 'Youth Soccer - Admin';
 $active = "Admin";
 require_once('header.php');
-
+require_once('mysql_conn.php');
+require_once('./sanitize.php');
 
 // require_once('mysql_conn.php');
 // $dbconn = new_connection('phpWebEngine');
@@ -22,44 +23,70 @@ require_once('header.php');
 // $query = "SELECT Opponent, Location, Score, TeamRank FROM Matches";
 // $result = $dbconn->query($query);
 
+if(isset($_POST['user']) && isset($_POST['role'])) {
+  $dbconn = new_connection($_SESSION['role']);
+  $user = sanitize($_POST['user']);
+  $role = sanitize($_POST['role']);
+
+  if (mysqli_connect_errno()) {
+      printf("Connect failed: %s\n", mysqli_connect_error());
+      exit();
+  }
+
+  $query = "UPDATE UserAcct SET Role = ? WHERE ID = ?";
+  $stmt = $dbconn->prepare($query);
+
+  if ($stmt) {
+      $stmt->bind_param('ss', $role, $user);
+      if (!$stmt->execute()) {
+          echo "SQL execution failed";
+      } else {
+        echo "It worked!!!!!";
+      }
+  } else {
+    echo "statement failed";
+  }
+
+  $dbconn->close();
+}
+// var_dump($_POST);
+
 ?>
 <div class="container">
   <h1>Admin</h1>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Opponent</th>
-        <th scope="col">Location</th>
-        <th scope="col">Score</th>
-        <th scope="col">Team Rank</th>
-      </tr>
-    </thead>
-    <tbody>
+
+  <form action="admin.php" method="POST">
+    <select name='user' class="form-control">
+
       <?php
-      // if ($result) {
-      //     $row_num = 1;
-      //     while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
-      //       printf ("<tr>
-      //                 <th scope=\"row\">%d</th>
-      //                 <td>%s</td>
-      //                 <td>%s</td>
-      //                 <td>%s</td>
-      //                 <td>%s</td>
-      //               </tr>",
-      //       $row_num++, $row['Opponent'], $row['Location'], $row['Score'], $row['TeamRank']);
-      //   }
-      // } else {
-      //   echo "query failed";
-      // }
-      //
-      // $dbconn->close();
+
+      $dbconn = new_connection($_SESSION['role']);
+
+      if (mysqli_connect_errno()) {
+          printf("Connect failed: %s\n", mysqli_connect_error());
+          exit();
+      }
+
+      $query = "SELECT ID, Email, Role FROM UserAcct";
+      $result = $dbconn->query($query);
+
+      if($result) {
+        while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+          printf ('<option value="%s">%s - %s</option>',
+          $row['ID'], $row['Email'], $row['Role']);
+        }
+      }
+      ?>
+    </select>
+    <select name='role' class="form-control">
+      <option value='observer'>observer</option>
+      <option value='user'>user</option>
+      <option value='manager'>manager</option>
+    </select>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
 
 
-       ?>
-
-
-    </tbody>
-  </table>
 </div>
 <?php require_once('footer.php'); ?>
