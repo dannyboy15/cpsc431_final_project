@@ -21,7 +21,7 @@ if (mysqli_connect_errno()) {
     exit();
 }
 $query = "SELECT Email FROM UserAcct WHERE Email='$email'";
-$code_query = "UPDATE UserAcct SET passreset='$code' WHERE email='$email'";
+// $code_query = "UPDATE UserAcct SET passreset='$code' WHERE email='$email'";
 
 if($_POST) {
 	$email = $_POST['email'];
@@ -60,10 +60,10 @@ if($_POST) {
 			$mail->AltBody = "<br/>Recently a request was submitted to reset a password. If did not sumbit a request, ignore this email and nothing will happen. <br/>$link to Reset Password.";
 
 
-			mysqli_query($dbconn, $code_query);
+			// mysqli_query($dbconn, $code_query);
 
 			$mail->send();
-				echo 'Your reset link was sent to the email provided.';
+				echo 'Your reset link was sent to the email provided. You will be automatically redirected in 3 seconds';
 
 
 		}
@@ -78,5 +78,7 @@ if($_POST) {
 
 
 $dbconn->close();
+
+header("refresh:3;url=index.php");
 
 ?>
